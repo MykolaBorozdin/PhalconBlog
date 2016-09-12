@@ -1,0 +1,26 @@
+<div align="left">
+    <?php 
+    echo $this->tag->linkTo("article/new", "Create Article", "class:btn btn-primary");
+    ?>
+</div>
+
+<?php echo $this->tag->form("article/search"); ?>
+
+<h2>Search products</h2>
+
+<fieldset>
+
+<?php 
+    foreach ($form as $element) {
+        echo $element->label()."&nbsp;&nbsp;&nbsp;";
+        echo $element->render().'<br>';
+    } 
+
+?>
+<div class="control-group">
+    <?php echo $this->tag->submitButton("Search") ?>
+</div>
+
+</fieldset>
+
+</form>

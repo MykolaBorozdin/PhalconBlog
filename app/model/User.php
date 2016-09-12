@@ -4,7 +4,7 @@ use Phalcon\Mvc\Model\Validator\Email as EmailValidator;
 use Phalcon\Mvc\Model\Validator\Uniqueness as UniquenessValidator;
 use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
 class User extends Collection
-{
+{}
     // public function validation()
     // {
         // $this->validate(
@@ -48,4 +48,3 @@ class User extends Collection
 // 
         // return $this->validationHasFailed() != true;
     // }
-}
