@@ -43,7 +43,7 @@ class IndexController extends Controller {
                     // Forward to the 'invoices' controller if the user is valid
                     return $this->dispatcher->forward(
                         [
-                            'controller' => 'invoices',
+                            'controller' => 'article',
                             'action'     => 'index'
                         ]
                     );
