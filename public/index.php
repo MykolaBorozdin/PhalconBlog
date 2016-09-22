@@ -2,6 +2,7 @@
 
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
+use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Mvc\Application;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Url as UrlProvider;
@@ -9,6 +10,7 @@ use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Session\Adapter\Files as Session;
 
 try {
     define('APP_PATH', realpath('..') . '/');
@@ -80,10 +82,37 @@ try {
         $view = new View();
 
         $view->setViewsDir('../app/view/');
+        
+        $view->registerEngines(
+            [
+                ".phtml" => function ($view, $di) {
+                    $volt = new Volt($view, $di);
+                    $volt-> setOptions(array(
+                        //'compiledPath' => '../app/compiled/',
+                        //'stat' => true,
+                        'compileAlways' => true  
+                    ));
+
+                    // Set some options here
+
+                    return $volt;
+                }
+            ]
+        );
 
         return $view;
     }, true);
+    
+   $di->setShared(
+    "session",
+    function () {
+        $session = new Session();
 
+        $session->start();
+
+        return $session;
+    }
+    );
     $application = new Application($di);
 
     // Handle the request

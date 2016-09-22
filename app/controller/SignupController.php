@@ -2,9 +2,9 @@
 
 use Phalcon\Mvc\Controller;
 
-class SignupController extends Controller {
+class SignupController extends BaseController {
     public function indexAction() {
-        
+        $this->view->hideLogin = TRUE;
     }
     
     public function registerAction() {
@@ -23,6 +23,12 @@ class SignupController extends Controller {
             }
         } else {
             echo "Great, a new user was saved successfully!";
+            return $this->dispatcher->forward(
+                        [
+                            'controller' => 'index',
+                            'action'     => 'index'
+                        ]
+             );
         }
     }
 }

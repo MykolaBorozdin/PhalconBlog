@@ -4,18 +4,22 @@ use Phalcon\Mvc\Controller;
 
 class IndexController extends Controller {
     public function indexAction() {
-        
+        $this->session->conditions = null;
+        $this->view->form = new ArticleForm;
+        $this->view->articles = Article::find();
+        $this->view->currentUser =  ($this->session->get('currentUser'));
     }
     
     private function _registerSession($user)
     {
         $this->session->set(
-            'auth',
-            [
-                'id'   => $user->id,
-                'email' => $user->email
-            ]
+            'currentUser', $user->email
         );
+    }
+    
+    private function _clearSession()
+    {
+        $this->session->remove('currentUser');
     }
     
     
@@ -33,6 +37,7 @@ class IndexController extends Controller {
             );
             
             if (!$user) {
+                $this->view->hideLogin = true;
                 echo "Wrong password or email.";
             } else {
                 echo "Hello, %username%!";
@@ -40,15 +45,24 @@ class IndexController extends Controller {
     
                     $this->flash->success('Welcome ' . $user->name);
     
-                    // Forward to the 'invoices' controller if the user is valid
                     return $this->dispatcher->forward(
                         [
-                            'controller' => 'article',
+                            'controller' => 'index',
                             'action'     => 'index'
                         ]
                     );
             }
         }
+    }
+
+    public function logoutAction() {
+        $this->_clearSession();
+        return $this->dispatcher->forward(
+                        [
+                            'controller' => 'index',
+                            'action'     => 'index'
+                        ]
+       );
     }
     
 }
