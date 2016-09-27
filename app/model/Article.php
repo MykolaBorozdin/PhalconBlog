@@ -1,5 +1,7 @@
 <?php
 use Phalcon\Mvc\Collection;
+use Phalcon\Mvc\Model\Validator\StringLength as StringLengthValidator;
+
 class Article extends Collection
 {
     public $title;
@@ -31,6 +33,33 @@ class Article extends Collection
         } else {
             return "";
         }
+    }
+    
+    public function validation() {
+        $this->validate(
+            new StringLengthValidator(
+                array(
+                    "field"   => "title",
+                    'max' => 50,
+                    'min' => 2,
+                    "messageMinimum" => "Title must be not empty",
+                    "messageMaximum" => "Title must be not too long"
+                )
+            )
+        );
+        
+        $this->validate(
+            new StringLengthValidator(
+                array(
+                    "field"   => "text",
+                    'max' => 500,
+                    'min' => 2,
+                    "messageMinimum" => "Text must be long",
+                    "messageMaximum" => "Text must be not too long"
+                )
+            )
+        );
+        return $this->validationHasFailed() != true;
     }
     
 }

@@ -22,3 +22,4 @@
 </fieldset>
 
 </form>
+{{content()}}

@@ -11,6 +11,7 @@ use Phalcon\Config\Adapter\Ini as ConfigIni;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Session\Adapter\Files as Session;
+use Phalcon\Flash\Direct as FlashDirect;
 
 class AppRunner {
     
@@ -114,6 +115,15 @@ class AppRunner {
         return $session;
     }
     );
+    
+    // Set up the flash service
+    $di->set(
+        "flash",
+        function () {
+            return new FlashDirect();
+        }
+    );
+    
     $application = new Application($di);
 
     // Handle the request
