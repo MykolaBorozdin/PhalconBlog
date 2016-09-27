@@ -9,19 +9,19 @@
         <table>
             <tr>
                 <td > 
-                    <?= $this->getContent() ?>
+                    {{content()}}
                 </td>
                 <td style="vertical-align:top;">
-                    <?php if ((!(isset($hideLogin)))) { ?>
-                    <?php if (isset($currentUser)) { ?>
-                        <p> Hello, <?= $currentUser ?>!</p>
-                        <?= $this->tag->linkTo(['index/logout', 'Log out']) ?>
+                    {%if (not (hideLogin is defined))%}
+                    {%if currentUser is defined%}
+                        <p> Hello, {{currentUser}}!</p>
+                        {{link_to("index/logout", "Log out")}}
                         <div align="left">
                             <?php 
                             echo $this->tag->linkTo("article/new", "Create Article", "class:btn btn-primary");
                             ?>
                         </div>
-                    <?php } else { ?>
+                    {%else%}
                         <h2>Please, sign in using this form</h2>
 
                         <?php echo $this->tag->form("index/login"); ?>
@@ -43,8 +43,8 @@
                         <?php 
                             echo $this->tag->linkTo("signup", "Sign Up Here!");
                         ?>
-                    <?php } ?>
-                    <?php } ?>
+                    {%endif%}
+                    {%endif%}
                 </td>
             </tr>
         </table>
